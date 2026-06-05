@@ -1,0 +1,29 @@
+{
+	"code": 0,
+	"data": [
+		{
+			"serial": "PIJ-032",
+			"name": "Profesor",
+			"lastname_father": "Inocencio",
+			"lastname_mother": "Jirafales"
+		},
+		{
+			"serial": "JCG-019",
+			"name": "Juanita",
+			"lastname_father": "Contreras",
+			"lastname_mother": "Gutiérrez"
+		},
+		{
+			"serial": "LCM-030",
+			"name": "Luis",
+			"lastname_father": "Campos",
+			"lastname_mother": "Méndez"
+		},
+		{
+			"serial": "MSB-103",
+			"name": "María Elena",
+			"lastname_father": "Solís",
+			"lastname_mother": "Bautista"
+		}
+	]
+}
