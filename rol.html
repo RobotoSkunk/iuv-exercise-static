@@ -3,10 +3,99 @@
 
 <head>
 	<script src="/assets/js/main-layout.js" defer></script>
+
+	<link rel="stylesheet" href="/assets/css/roles.css">
+	<meta name="scripts" content="/assets/js/roles/list.js">
 </head>
 
-<body>
+<body class="roles">
 	<template id="page-content">
-		<h1>Rol</h1>
+		<h1 style="margin-left: 52px">Roles</h1>
+		<div class="panel">
+			<div class="list" id="roles-list">
+				<a href="/rol.html?id=nuevo" class="button">
+					<img
+						src="/assets/icon/plus.svg"
+						width="26"
+						height="26"
+						alt=""
+						class="plus"
+					/>
+					<span>
+						Crear nuevo rol
+					</span>
+				</a>
+			</div>
+
+			<template id="role-button">
+				<a href="/rol?id=$ID" class="button">
+					<span></span>
+					<div class="arrow">
+						<img
+							src="assets/icon/arrow-right.svg"
+							width="26"
+							height="26"
+							alt=""
+						/>
+					</div>
+				</a>
+			</template>
+
+			<div class="config">
+				<div class="alert" id="alert">
+					<h2>Selecciona un rol de la lista.</h2>
+				</div>
+
+				<form method="POST" id="role-data" style="display: none">
+					<section class="info">
+						<span class="section-title">Nombre del rol</span>
+						<input
+							type="text"
+							name="name"
+							id="role-name"
+							required
+						/>
+					</section>
+
+					<hr class="separator"/>
+
+					<section id="permissions">
+						<span class="section-title">Permisos del rol</span>
+					</section>
+
+					<hr class="separator"/>
+
+					<section id="section-create" style="display: none">
+						<button>Crear</button>
+					</section>
+
+					<section id="section-edit" style="display: none">
+						<button style="display: 'inline-block'">
+							Actualizar
+						</button>
+
+						<button id="role-delete" style="display: 'inline-block'; margin-left: 12px">
+							Eliminar
+						</button>
+					</section>
+
+					<section id="section-noallowed" style="display: none">
+						<p>Por seguridad, no puedes modificar ni eliminar el rol asignado a tu perfil.</p>
+					</section>
+				</form>
+			</div>
+
+			<template id="checkbox">
+				<label class="checkbox">
+					<input type="checkbox">
+
+					<div class="switch">
+						<div class="handler"></div>
+					</div>
+
+					<span>{ children }</span>
+				</label>
+			</template>
+		</div>
 	</template>
 </body>
