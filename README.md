@@ -28,3 +28,27 @@ código.
 
 Para una demostración funcional, la página se encuentra hosteada con GitHub
 Pages en [iuv.robotoskunk.com](https://iuv.robotoskunk.com/).
+
+## Capturas de pantalla
+
+> **Inicio de sesión**
+> ![Inicio de sesión](_screenshots/Screenshot_20260604_234023.png)
+
+> **Lista de administradores**
+> ![Lista de administradores](_screenshots/Screenshot_20260604_234034.png)
+
+> **Lista de docentes**
+> ![](_screenshots/Screenshot_20260604_234038.png)
+
+> **Lista y panel de roles**
+> ![](_screenshots/Screenshot_20260604_234047.png)
+
+> **Panel del rol actual del usuario administrador**
+> ![](_screenshots/Screenshot_20260604_234053.png)
+
+> **Panel de información del docente**
+> ![](_screenshots/Screenshot_20260604_234100.png)
+
+> **Panel de información del administrador**
+> ![](_screenshots/Screenshot_20260604_234104.png)
+
