@@ -7,7 +7,7 @@ class Notifications
 	 */
 	static push(type, content)
 	{
-		const id = Date.now();
+		const id = `notif-${Date.now()}`;
 
 		/**
 		 * @type {HTMLTemplateElement}
@@ -18,12 +18,28 @@ class Notifications
 
 		const div = clone.querySelector('div');
 		div.classList.add(type);
-		div.id = `notif-${id}`;
+		div.id = id;
 
 		const span = clone.querySelector('span');
 		span.innerText = content;
 
+		const button = clone.querySelector('button');
+		button.addEventListener('click', () => this.remove(id));
+
+		setTimeout(() => this.remove(id), 6000);
+
 		document.getElementById('notifications').append(clone);
+	}
+
+	/**
+	 * @param {string} id 
+	 */
+	static remove(id)
+	{
+		const notification = document.getElementById(id);
+		notification.classList.add('remove');
+
+		setTimeout(() => notification.remove(), 260);
 	}
 }
 

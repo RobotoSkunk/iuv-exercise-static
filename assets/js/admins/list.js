@@ -37,7 +37,7 @@
 			);
 
 			if (answer) {
-				// notificationsContext.push('success', 'Se ha eliminado el administrador.');
+				Notifications.push('success', 'Se ha eliminado el administrador.');
 				row.remove();
 			}
 		});
@@ -65,8 +65,3 @@
 		document.getElementById('roles').append(optionElement);
 	}
 })();
-
-document.getElementById('notif-test').addEventListener('click', (ev) =>
-{
-	Notifications.push('alert', 'blablabla')
-});
