@@ -23,7 +23,7 @@ class Notifications
 		const span = clone.querySelector('span');
 		span.innerText = content;
 
-		document.querySelector('notifications').append(clone);
+		document.getElementById('notifications').append(clone);
 	}
 }
 
