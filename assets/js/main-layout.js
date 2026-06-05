@@ -1,0 +1,71 @@
+
+class Notifications
+{
+	/**
+	 * @param {'info' | 'success' | 'alert' | 'error'} type 
+	 * @param {string} content 
+	 */
+	static push(type, content)
+	{
+		const id = Date.now();
+
+		/**
+		 * @type {HTMLTemplateElement}
+		 */
+		const template = document.getElementById('notification');
+
+		const clone = document.importNode(template.content, true);
+
+		const div = clone.querySelector('div');
+		div.classList.add(type);
+		div.id = `notif-${id}`;
+
+		const span = clone.querySelector('span');
+		span.innerText = content;
+
+		document.querySelector('notifications').append(clone);
+	}
+}
+
+(async() =>
+{
+	// Load layout
+	const response = await fetch('/layout.html');
+	const html = await response.text();
+	document.body.innerHTML += html;
+
+	/**
+	 * @type {HTMLTemplateElement}
+	 */
+	const contentTemplate = document.getElementById('page-content');
+	document.querySelector('main').append(contentTemplate.content);
+	contentTemplate.remove();
+
+	/**
+	 * @type {HTMLTemplateElement}
+	 */
+	const headTemplate = document.getElementById('head');
+	document.head.append(headTemplate.content);
+	headTemplate.remove();
+
+
+	// Load scripts
+	/**
+	 * @type {HTMLMetaElement | null}
+	 */
+	const scriptsMeta = document.querySelector('meta[name=scripts]');
+
+	if (scriptsMeta) {
+		const scriptPaths = scriptsMeta.content.split(':');
+
+		for (const path of scriptPaths) {
+			const scriptElement = document.createElement('script');
+			scriptElement.src = path;
+			scriptElement.defer = true;
+
+			document.head.append(scriptElement);
+		}
+
+		scriptsMeta.remove();
+	}
+})();

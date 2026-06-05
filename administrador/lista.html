@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<script src="/assets/js/main-layout.js" defer></script>
+
+	<meta name="scripts" content="/assets/js/admins/list.js">
+</head>
+
+<body>
+	<template id="page-content">
+		<section>
+			<h1 style="margin-left: 52px">Administradores</h1>
+
+			<table>
+				<thead>
+					<tr>
+						<th>Cédula</th>
+						<th>Nombre</th>
+						<th>Apellido Paterno</th>
+						<th>Apellido Materno</th>
+						<th>Rol</th>
+						<th>Administrar</th>
+					</tr>
+				</thead>
+				<tbody id="admins-list"></tbody>
+			</table>
+
+			<template id="admin-row">
+				<td>$SERIAL</td>
+				<td>$NAME</td>
+				<td>$LASTNAME_FATHER</td>
+				<td>$LASTNAME_MOTHER</td>
+				<td>$ROLE</td>
+				<td class="actions">
+					<a href="/administrador/?=$SERIAL">
+						<img
+							src="/assets/icon/eye.svg"
+							alt=""
+							title="Ver información del administrador"
+							width="26"
+							height="26"
+						><!--
+					--></a>
+					<a href="javascript:void()" data-action="delete">
+						<img
+							src="/assets/icon/trash.svg"
+							alt=""
+							title="Eliminar docente"
+							width="26"
+							height="26"
+						>
+					</a>
+				</td>
+			</template>
+		</section>
+
+		<section>
+			<h2 style="margin-left: 52px">Registrar un nuevo docente</h2>
+			<form method="POST">
+				<table>
+					<thead>
+						<tr>
+							<th>Cédula</th>
+							<th>Nombre</th>
+							<th>Apellido Paterno</th>
+							<th>Apellido Materno</th>
+							<th>Rol</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<input type="text" name="serial" required/>
+							</td>
+							<td>
+								<input type="text" name="name" required/>
+							</td>
+							<td>
+								<input type="text" name="lastname_father" required/>
+							</td>
+							<td>
+								<input type="text" name="lastname_mother" required/>
+							</td>
+							<td>
+								<select name="role_id" id="roles"></select>
+							</td>
+							<td>
+								<button>Registrar</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</section>
+
+		<button id="notif-test">Notification</button>
+	</template>
+</body>

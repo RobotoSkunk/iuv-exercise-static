@@ -1,0 +1,72 @@
+<template id="head">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Portal E.S.B.O.</title>
+
+	<link rel="stylesheet" href="/assets/css/stylesheet.css">
+</template>
+
+<div class="dashboard" id="dashboard">
+	<nav>
+		<div class="links">
+			<div class="title">
+				E.S.B.O. #8
+			</div>
+			<a href="/">
+				<div class="background"></div>
+				<img src="/assets/icon/house.svg" alt="" width="20" height="20">
+				<span>Inicio</span>
+			</a>
+			<a href="/administrador/lista.html">
+				<div class="background"></div>
+				<img src="/assets/icon/user-shield.svg" alt="" width="20" height="20">
+				<span>Administradores</span>
+			</a>
+			<a href="/docente/lista.html">
+				<div class="background"></div>
+				<img src="/assets/icon/book-user.svg" alt="" width="20" height="20">
+				<span>Docentes</span>
+			</a>
+			<a href="/rol.html">
+				<div class="background"></div>
+				<img src="/assets/icon/gear.svg" alt="" width="20" height="20">
+				<span>Roles</span>
+			</a>
+		</div>
+		<div class="user">
+			<span>
+				<img src="/assets/icon/user.svg" alt="" width="20" height="20">
+				<b>José Ignacio Orozco Álvarez</b>
+			</span>
+			<span>
+				<img src="/assets/icon/shield.svg" alt="" width="20" height="20">
+				Administrador
+			</span>
+			<hr/>
+			<a
+				href="/iniciar-sesion"
+			>
+				<div class="background"></div>
+				<img src="/assets/icon/door-open.svg" alt="" width="20" height="20">
+				<span>Cerrar Sesión</span>
+			</a>
+		</div>
+	</nav>
+
+	<main></main>
+
+	<div class="notifications-container" id="notifications"></div>
+	<template id="notification">
+		<div class="notification">
+			<span></span>
+			<button>
+				<img
+					src="/assets/icon/xmark.svg"
+					width="26"
+					height="26"
+					alt=""
+				/>
+			</button>
+		</div>
+	</template>
+</div>

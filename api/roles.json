@@ -1,0 +1,38 @@
+{
+	"code": 0,
+	"data": [
+		{
+			"id": 1,
+			"name": "Administrador del sistema",
+			"permissions": [
+				"admin.create",
+				"admin.edit",
+				"admin.delete",
+				"role.create",
+				"role.edit",
+				"role.delete",
+				"teacher.create",
+				"teacher.edit",
+				"teacher.delete"
+			]
+		},
+		{
+			"id": 2,
+			"name": "Empleado",
+			"permissions": [
+				"teacher.create",
+				"teacher.edit",
+				"teacher.delete"
+			]
+		},
+		{
+			"id": 3,
+			"name": "Administrador de roles",
+			"permissions": [
+				"role.create",
+				"role.edit",
+				"role.delete"
+			]
+		}
+	]
+}
