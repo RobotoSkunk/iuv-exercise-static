@@ -1,4 +1,8 @@
 
+if (!sessionStorage.getItem('logged-in')) {
+	location.href = '/iniciar-sesion.html';
+}
+
 class Notifications
 {
 	/**
@@ -64,6 +68,13 @@ class Notifications
 	document.head.append(headTemplate.content);
 	headTemplate.remove();
 
+	document.getElementById('logout').addEventListener('click', (ev) =>
+	{
+		ev.preventDefault();
+
+		sessionStorage.removeItem('logged-in', '1');
+		location.href = '/iniciar-sesion.html';
+	});
 
 	// Load scripts
 	/**

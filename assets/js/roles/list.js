@@ -40,7 +40,7 @@ const permissionsData = [
 
 (async () =>
 {
-	const result = await fetch('/api/roles.json');
+	const result = await fetch('/data/roles.json');
 	const params = new URLSearchParams(location.search);
 
 	/**
