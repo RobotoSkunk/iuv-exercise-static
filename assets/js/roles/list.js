@@ -40,13 +40,13 @@ const permissionsData = [
 
 (async () =>
 {
-	const result = await fetch('/data/roles.json');
+	const response = await fetch('/data/roles.json');
 	const params = new URLSearchParams(location.search);
 
 	/**
 	 * @type {{ code: number, data: { id: number, name: string, permissions: string[] }[] }}
 	 */
-	const json = await result.json();
+	const json = await response.json();
 	json.data.reverse();
 
 	/**

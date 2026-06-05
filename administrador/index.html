@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<script src="/assets/js/main.js" defer></script>
+
+	<meta name="scripts" content="/assets/js/admins/data.js">
+	<link rel="stylesheet" href="/assets/css/panel.css">
+</head>
+
+<body class="panel">
+	<template id="page-content">
+		<h1 class="title">Información del Docente</h1>
+		<form method="POST">
+			<label class="input-label">
+				<span>Nombre</span>
+				<input type="text" name="name" id="name">
+			</label>
+			<label class="input-label">
+				<span>Apellido Paterno</span>
+				<input type="text" name="lastname_father" id="lastname_father">
+			</label>
+			<label class="input-label">
+				<span>Apellido Materno</span>
+				<input type="text" name="lastname_mother" id="lastname_mother">
+			</label>
+			<select name="role_id" id="role"></select>
+			<button>Actualizar datos</button>
+		</form>
+	</template>
+</body>

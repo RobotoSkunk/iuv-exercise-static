@@ -1,12 +1,12 @@
 
 (async () =>
 {
-	const result = await fetch('/data/teachers.json');
+	const response = await fetch('/data/teachers.json');
 
 	/**
 	 * @type {{ code: number, data: { serial: string, name: string, lastname_father: string, lastname_mother: string }[] }}
 	 */
-	const json = await result.json();
+	const json = await response.json();
 
 	/**
 	 * @type {HTMLTemplateElement}

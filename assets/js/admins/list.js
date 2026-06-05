@@ -2,12 +2,12 @@
 // Cargar administradores
 (async () =>
 {
-	const result = await fetch('/data/admins.json');
+	const response = await fetch('/data/admins.json');
 
 	/**
 	 * @type {{ code: number, data: { serial: string, name: string, lastname_father: string, lastname_mother: string, role: string }[] }}
 	 */
-	const json = await result.json();
+	const json = await response.json();
 
 	/**
 	 * @type {HTMLTemplateElement}
@@ -49,12 +49,12 @@
 // Cargar roles
 (async () =>
 {
-	const result = await fetch('/data/roles.json');
+	const response = await fetch('/data/roles.json');
 
 	/**
 	 * @type {{ code: number, data: { id: number, name: string, permissions: string[] }[] }}
 	 */
-	const json = await result.json();
+	const json = await response.json();
 
 
 	for (const role of json.data) {
