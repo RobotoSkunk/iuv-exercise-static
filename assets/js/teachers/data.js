@@ -2,6 +2,7 @@
 (async () =>
 {
 	const serial = new URLSearchParams(location.search).get('serial');
+	const attendanceTemplate = $('#attendance');
 
 	if (!serial) {
 		location.href = '/docente/lista.html';
@@ -27,6 +28,20 @@
 		$('#lastname_mother').val(teacherData.lastname_mother);
 	}
 
+	/**
+	 * @param {Date} date 
+	 * @param {boolean} isEntry 
+	 */
+	function addEntryToTable(date, isEntry)
+	{
+		const clone = attendanceTemplate.contents().clone(true);
+
+		clone.children('[data-id=datetime]').text(date.toLocaleDateString() + ' ' + date.toLocaleTimeString());
+		clone.children('[data-id=type]').text(isEntry ? 'Entrada' : 'Salida');
+
+		$('#attendances').append(clone);
+	}
+
 	{
 		const response = await fetch('/data/attendances.json');
 
@@ -35,16 +50,16 @@
 		 */
 		const json = await response.json();
 
-		const attendanceTemplate = $('#attendance');
-
 		for (const attendance of json.data) {
-			const clone = attendanceTemplate.contents().clone(true);
-			const date = new Date(attendance.created_at);
-
-			clone.children('[data-id=datetime]').text(date.toLocaleDateString() + ' ' + date.toLocaleTimeString());
-			clone.children('[data-id=type]').text(attendance.is_entry ? 'Entrada' : 'Salida');
-
-			$('#attendances').append(clone);
+			addEntryToTable(new Date(attendance.created_at), attendance.is_entry);
 		}
 	}
+
+	let lastCheckWasEntry = false;
+
+	$('#simulate').on('click', () =>
+	{
+		lastCheckWasEntry = !lastCheckWasEntry;
+		addEntryToTable(new Date(), lastCheckWasEntry);
+	});
 })();
