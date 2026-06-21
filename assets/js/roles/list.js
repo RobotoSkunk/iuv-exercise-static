@@ -49,10 +49,7 @@ const permissionsData = [
 	const json = await response.json();
 	json.data.reverse();
 
-	/**
-	 * @type {HTMLTemplateElement}
-	 */
-	const template = document.getElementById('role-button');
+	const template = $('#role-button');
 
 	/**
 	 * @type {{ id: number, name: string, permissions: string[] } | null}
@@ -60,23 +57,21 @@ const permissionsData = [
 	let currentRole = null; 
 
 	for (const role of json.data) {
-		const clone = document.importNode(template.content, true);
+		const clone = template.contents().clone(true);
+		clone.attr('href', `/rol.html?id=${role.id}`);
+		clone.attr('id', `role-${role.id}`);
 
-		const button = clone.querySelector('a');
-		button.href	= `/rol.html?id=${role.id}`;
-		button.id = `role-${role.id}`;
-
-		const span = clone.querySelector('span');
-		span.innerText = role.name;
+		const span = clone.children('span');
+		span.text(role.name);
 
 		if (params.get('id') != role.id) {
-			const img = clone.querySelector('img');
+			const img = clone.children('img');
 			img.remove();
 		} else {
 			currentRole = role;
 		}
 
-		document.getElementById('roles-list').prepend(button);
+		$('#roles-list').prepend(clone);
 	}
 
 
@@ -87,21 +82,18 @@ const permissionsData = [
 		return;
 	}
 
-	/**
-	 * @type {HTMLTemplateElement}
-	 */
-	const checkboxTemplate = document.getElementById('checkbox');
+	const checkboxTemplate = $('#checkbox');
 
 	if (currentRole) {
-		document.getElementById('role-name').value = currentRole.name;
+		$('#role-name').val(currentRole.name);
 
 		if (currentRole.id === 1) {
-			document.getElementById('section-noallowed').style.display = 'block';
+			$('#section-noallowed').css('display', 'block');
 		} else {
-			document.getElementById('section-edit').style.display = 'flex';
+			$('#section-edit').css('display', 'flex');
 		}
 
-		document.getElementById('role-delete').addEventListener('click', (ev) =>
+		$('#role-delete').on('click', (ev) =>
 		{
 			ev.preventDefault();
 
@@ -115,10 +107,10 @@ const permissionsData = [
 			}
 
 			Notifications.push('success', 'Se ha eliminado el rol solicitado.');
-			document.getElementById(`role-${currentRole.id}`).remove();
-			document.getElementById('role-data').remove();
+			(`#role-${currentRole.id}`).remove();
+			$('#role-data').remove();
 
-			document.getElementById('alert').style.display = 'flex';
+			$('#alert').css('display', 'flex');
 
 			setTimeout(() =>
 			{
@@ -131,29 +123,29 @@ const permissionsData = [
 			}, 1000);
 		});
 	} else if (roleId === 'nuevo') {
-		document.getElementById('section-create').style.display = 'block';
+		$('#section-create').css('display', 'block');
 	}
 
 	for (const permission of permissionsData) {
-		const clone = document.importNode(checkboxTemplate.content, true);
-		clone.querySelector('span').innerText = permission.name;
+		const clone = checkboxTemplate.contents().clone(true);
+		clone.children('span').text(permission.name);
 
-		const input = clone.querySelector('input');
-		input.name = permission.intent;
+		const input = clone.children('input');
+		input.attr('name', permission.intent);
 
 		if (currentRole) {
 			if (currentRole.permissions.includes(permission.intent)) {
-				input.checked = true;
+				input.attr('checked', true);
 			}
 
 			if (currentRole.id == 1) {
-				input.disabled = true;
+				input.attr('disabled', true);
 			}
 		}
 
-		document.getElementById('permissions').append(clone);
+		$('#permissions').append(clone);
 	}
 
-	document.getElementById('alert').style.display = 'none';
-	document.getElementById('role-data').style.display = 'block';
+	$('#alert').css('display', 'none');
+	$('#role-data').css('display', 'block');
 })();

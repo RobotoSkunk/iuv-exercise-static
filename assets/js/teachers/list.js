@@ -7,25 +7,21 @@
 	 * @type {{ code: number, data: { serial: string, name: string, lastname_father: string, lastname_mother: string }[] }}
 	 */
 	const json = await response.json();
-
-	/**
-	 * @type {HTMLTemplateElement}
-	 */
-	const template = document.getElementById('teacher-row');
+	const template = $('#teacher-row');
 
 	for (const teacher of json.data) {
 		// Nota: esto es ridículamente inseguro y solo se usó de esta manera
 		// para terminar la actividad lo más rápido posible.
-		const html = template.innerHTML
+		const html = template.html()
 			.replaceAll('$SERIAL', teacher.serial)
 			.replace('$NAME', teacher.name)
 			.replace('$LASTNAME_FATHER', teacher.lastname_father)
 			.replace('$LASTNAME_MOTHER', teacher.lastname_mother);
 
-		const row = document.createElement('tr');
-		row.innerHTML = html;
+		const row = $('<tr>');
+		row.html(html);
 
-		row.querySelector('a[data-action=delete]').addEventListener('click', (ev) =>
+		row.children('a[data-action=delete]').on('click', (ev) =>
 		{
 			ev.preventDefault();
 
@@ -40,6 +36,6 @@
 			}
 		});
 
-		document.getElementById('teachers-list').append(row);
+		$('#teachers-list').append(row);
 	}
 })();

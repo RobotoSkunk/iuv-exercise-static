@@ -22,9 +22,9 @@
 			return;
 		}
 
-		document.getElementById('name').value = teacherData.name;
-		document.getElementById('lastname_father').value = teacherData.lastname_father;
-		document.getElementById('lastname_mother').value = teacherData.lastname_mother;
+		$('#name').val(teacherData.name);
+		$('#lastname_father').val(teacherData.lastname_father);
+		$('#lastname_mother').val(teacherData.lastname_mother);
 	}
 
 	{
@@ -35,19 +35,16 @@
 		 */
 		const json = await response.json();
 
-		/**
-		 * @type {HTMLTemplateElement}
-		 */
-		const attendanceTemplate = document.getElementById('attendance');
+		const attendanceTemplate = $('#attendance');
 
 		for (const attendance of json.data) {
-			const clone = document.importNode(attendanceTemplate.content, true);
+			const clone = attendanceTemplate.contents().clone(true);
 			const date = new Date(attendance.created_at);
 
-			clone.querySelector('[data-id=datetime]').innerText = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-			clone.querySelector('[data-id=type]').innerText = attendance.is_entry ? 'Entrada' : 'Salida';
+			clone.children('[data-id=datetime]').text(date.toLocaleDateString() + ' ' + date.toLocaleTimeString());
+			clone.children('[data-id=type]').text(attendance.is_entry ? 'Entrada' : 'Salida');
 
-			document.getElementById('attendances').append(clone);
+			$('#attendances').append(clone);
 		}
 	}
 })();

@@ -1,7 +1,7 @@
 
 let showPassword = false;
 
-document.getElementById('show-password').addEventListener('click', (ev) =>
+$('#show-password').on('click', (ev) =>
 {
 	ev.preventDefault();
 	showPassword = !showPassword;
@@ -9,14 +9,14 @@ document.getElementById('show-password').addEventListener('click', (ev) =>
 	/**
 	 * @type {HTMLImageElement}
 	 */
-	const eyeIcon = document.getElementById('eye-icon');
-	eyeIcon.src = showPassword ? '/assets/icon/eye-slash.svg' : '/assets/icon/eye.svg';
-	eyeIcon.alt = showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña';
+	const eyeIcon = $('#eye-icon');
+	eyeIcon.attr('src', showPassword ? '/assets/icon/eye-slash.svg' : '/assets/icon/eye.svg');
+	eyeIcon.attr('alt', showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña');
 
-	document.getElementById('password').type = showPassword ? 'text' : 'password';
+	$('#password').attr('type', showPassword ? 'text' : 'password');
 });
 
-document.querySelector('form').addEventListener('submit', (ev) =>
+$('form').on('submit', (ev) =>
 {
 	ev.preventDefault();
 

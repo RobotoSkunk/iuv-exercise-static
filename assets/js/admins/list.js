@@ -8,26 +8,22 @@
 	 * @type {{ code: number, data: { serial: string, name: string, lastname_father: string, lastname_mother: string, role: string }[] }}
 	 */
 	const json = await response.json();
-
-	/**
-	 * @type {HTMLTemplateElement}
-	 */
-	const template = document.getElementById('admin-row');
+	const template = $('#admin-row');
 
 	for (const admin of json.data) {
 		// Nota: esto es ridículamente inseguro y solo se usó de esta manera
 		// para terminar la actividad lo más rápido posible.
-		const html = template.innerHTML
+		const html = template.html()
 			.replaceAll('$SERIAL', admin.serial)
 			.replace('$NAME', admin.name)
 			.replace('$LASTNAME_FATHER', admin.lastname_father)
 			.replace('$LASTNAME_MOTHER', admin.lastname_mother)
 			.replace('$ROLE', admin.role);
 
-		const row = document.createElement('tr');
-		row.innerHTML = html;
+		const row = $('<tr>');
+		row.html(html);
 
-		row.querySelector('a[data-action=delete]').addEventListener('click', (ev) =>
+		row.children('a[data-action=delete]').on('click', (ev) =>
 		{
 			ev.preventDefault();
 
@@ -42,7 +38,7 @@
 			}
 		});
 
-		document.getElementById('admins-list').append(row);
+		$('#admins-list').append(row);
 	}
 })();
 
@@ -56,12 +52,11 @@
 	 */
 	const json = await response.json();
 
-
 	for (const role of json.data) {
-		const optionElement = document.createElement('option');
-		optionElement.value = role.id;
-		optionElement.innerText = role.name;
+		const optionElement = $('<option>');
+		optionElement.val(role.id);
+		optionElement.text(role.name);
 
-		document.getElementById('roles').append(optionElement);
+		$('#roles').append(optionElement);
 	}
 })();

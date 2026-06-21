@@ -14,25 +14,23 @@ class Notifications
 		const id = `notif-${Date.now()}`;
 
 		/**
-		 * @type {HTMLTemplateElement}
+		 * @type {JQuery<HTMLTemplateElement>}
 		 */
-		const template = document.getElementById('notification');
+		const template = $('#notification');
+		const clone = template.contents().clone(true);
 
-		const clone = document.importNode(template.content, true);
+		clone.addClass(type);
+		clone.attr('id', id);
 
-		const div = clone.querySelector('div');
-		div.classList.add(type);
-		div.id = id;
+		const span = clone.children('span');
+		span.text(content);
 
-		const span = clone.querySelector('span');
-		span.innerText = content;
-
-		const button = clone.querySelector('button');
-		button.addEventListener('click', () => this.remove(id));
+		const button = clone.children('button');
+		button.on('click', () => this.remove(id));
 
 		setTimeout(() => this.remove(id), 6000);
 
-		document.getElementById('notifications').append(clone);
+		$('#notifications').append(clone);
 	}
 
 	/**
@@ -40,8 +38,8 @@ class Notifications
 	 */
 	static remove(id)
 	{
-		const notification = document.getElementById(id);
-		notification.classList.add('remove');
+		const notification = $(`#${id}`);
+		notification.addClass('remove');
 
 		setTimeout(() => notification.remove(), 260);
 	}
@@ -54,21 +52,15 @@ class Notifications
 	const html = await response.text();
 	document.body.innerHTML += html;
 
-	/**
-	 * @type {HTMLTemplateElement}
-	 */
-	const contentTemplate = document.getElementById('page-content');
-	document.querySelector('main').append(contentTemplate.content);
+	const contentTemplate = $('#page-content');
+	$('main').append(contentTemplate.contents());
 	contentTemplate.remove();
 
-	/**
-	 * @type {HTMLTemplateElement}
-	 */
-	const headTemplate = document.getElementById('head');
-	document.head.append(headTemplate.content);
+	const headTemplate = $('#head');
+	$('head').append(headTemplate.contents());
 	headTemplate.remove();
 
-	document.getElementById('logout').addEventListener('click', (ev) =>
+	$('#logout').on('click', (ev) =>
 	{
 		ev.preventDefault();
 
@@ -77,13 +69,10 @@ class Notifications
 	});
 
 	// Load scripts
-	/**
-	 * @type {HTMLMetaElement | null}
-	 */
-	const scriptsMeta = document.querySelector('meta[name=scripts]');
+	const scriptsMeta = $('meta[name=scripts]');
 
-	if (scriptsMeta) {
-		const scriptPaths = scriptsMeta.content.split(':');
+	if (scriptsMeta.length) {
+		const scriptPaths = scriptsMeta.attr('content').split(':');
 
 		for (const path of scriptPaths) {
 			const scriptElement = document.createElement('script');
