@@ -1,0 +1,18 @@
+{
+  "name": "iuv-exercise-static",
+  "module": "index.ts",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "private": true,
+  "scripts": {
+    "dev": "bun run --watch index.ts",
+    "hot": "bun run --hot index.ts"
+  },
+  "dependencies": {
+    "hono": "^4.12.27"
+  }
+}
