@@ -26,7 +26,17 @@ router.get('/', async (c) =>
 		WHERE
 			roles.id = users.role_id`;
 
-	return c.json(admins);
+	return c.json({
+		code: 0,
+		data: admins.map(v => ({
+			serial: v.id,
+			name: v.name,
+			lastname_father: v.lastname_father,
+			lastname_mother: v.lastname_mother,
+			role_id: v.role_id,
+			role: v.role,
+		})),
+	});
 });
 
 router.get('/:serial', async (c) =>
@@ -60,7 +70,17 @@ router.get('/:serial', async (c) =>
 		});
 	}
 
-	return c.json(admin);
+	return c.json({
+		code: 0,
+		data: {
+			serial: admin.id,
+			name: admin.name,
+			lastname_father: admin.lastname_father,
+			lastname_mother: admin.lastname_mother,
+			role_id: admin.role_id,
+			role: admin.role,
+		},
+	});
 });
 
 router.delete('/:serial', async (c) =>

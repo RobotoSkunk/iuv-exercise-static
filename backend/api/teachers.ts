@@ -19,7 +19,15 @@ router.get('/', async (c) =>
 		FROM
 			teachers`;
 
-	return c.json(teachers);
+	return c.json({
+		code: 0,
+		data: teachers.map(v => ({
+			serial: v.id,
+			name: v.name,
+			lastname_father: v.lastname_father,
+			lastname_mother: v.lastname_mother,
+		})),
+	});
 });
 
 router.get('/:serial', async (c) =>
@@ -49,7 +57,15 @@ router.get('/:serial', async (c) =>
 		});
 	}
 
-	return c.json(teacher);
+	return c.json({
+		code: 0,
+		data: {
+			serial: teacher.id,
+			name: teacher.name,
+			lastname_father: teacher.lastname_father,
+			lastname_mother: teacher.lastname_mother,
+		},
+	});
 });
 
 router.delete('/:serial', async (c) =>

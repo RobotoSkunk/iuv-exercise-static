@@ -7,7 +7,7 @@ $('#show-password').on('click', (ev) =>
 	showPassword = !showPassword;
 
 	/**
-	 * @type {HTMLImageElement}
+	 * @type {JQuery<HTMLImageElement>}
 	 */
 	const eyeIcon = $('#eye-icon');
 	eyeIcon.attr('src', showPassword ? '/assets/icon/eye-slash.svg' : '/assets/icon/eye.svg');
@@ -16,19 +16,52 @@ $('#show-password').on('click', (ev) =>
 	$('#password').attr('type', showPassword ? 'text' : 'password');
 });
 
-$('form').on('submit', (ev) =>
+$('form').on('submit', async (ev) =>
 {
 	ev.preventDefault();
 
-	if (!ev.target.checkValidity()) {
-		ev.target.reportValidity();
+	const form = ev.currentTarget;
+
+	if (!form.checkValidity()) {
+		form.reportValidity();
 		return;
 	}
 
-	sessionStorage.setItem('logged-in', '1');
-	location.href = '/';
+	const formData = new FormData(form);
+	const data = {};
+
+	for (const [ key, value ] of formData.entries()) {
+		data[key] = value;
+	}
+
+	try {
+		const response = await fetch(`/api/auth/login`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+
+		const json = await response.json();
+
+		if (json.code !== 0) {
+			alert(json.error);
+			return;
+		}
+
+		location.href = '/';
+	} catch (error) {
+		console.error(error);
+	}
 });
 
-if (sessionStorage.getItem('logged-in') !== null) {
-	location.href = '/';
-}
+(async () =>
+{
+	const response = await fetch('/api/identity');
+	const json = await response.json();
+
+	if (json.code == 0) {
+		location.href = '/';
+	}
+})();

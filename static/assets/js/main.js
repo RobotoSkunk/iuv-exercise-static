@@ -1,8 +1,4 @@
 
-if (!sessionStorage.getItem('logged-in')) {
-	location.href = '/iniciar-sesion.html';
-}
-
 class Notifications
 {
 	/**
@@ -47,6 +43,17 @@ class Notifications
 
 (async() =>
 {
+	{
+		const response = await fetch('/api/identity');
+		const json = await response.json();
+
+		if (json.code != 0) {
+			location.href = '/iniciar-sesion.html';
+			return;
+		}
+	}
+
+
 	// Load layout
 	const response = await fetch('/layout.html');
 	const html = await response.text();
@@ -60,11 +67,11 @@ class Notifications
 	$('head').append(headTemplate.contents());
 	headTemplate.remove();
 
-	$('#logout').on('click', (ev) =>
+	$('#logout').on('click', async (ev) =>
 	{
 		ev.preventDefault();
 
-		sessionStorage.removeItem('logged-in', '1');
+		await fetch('/api/auth/logout', { method: 'POST' });
 		location.href = '/iniciar-sesion.html';
 	});
 

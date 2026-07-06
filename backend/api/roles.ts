@@ -17,7 +17,10 @@ router.get('/', async (c) =>
 		FROM
 			roles`;
 
-	return c.json(roles);
+	return c.json({
+		code: 0,
+		data: roles,
+	});
 });
 
 router.get('/:id', async (c) =>
@@ -44,7 +47,10 @@ router.get('/:id', async (c) =>
 		});
 	}
 
-	return c.json(role);
+	return c.json({
+		code: 0,
+		data: role,
+	});
 });
 
 router.delete('/:id', async (c) =>

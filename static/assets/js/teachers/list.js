@@ -1,7 +1,7 @@
 
 (async () =>
 {
-	const response = await fetch('/data/teachers.json');
+	const response = await fetch('/api/teachers');
 
 	/**
 	 * @type {{ code: number, data: { serial: string, name: string, lastname_father: string, lastname_mother: string }[] }}

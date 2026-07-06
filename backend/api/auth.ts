@@ -77,7 +77,7 @@ router.post('/login', async (c) =>
 	}
 });
 
-router.delete('/logout', async (c) =>
+router.post('/logout', async (c) =>
 {
 	const cookie = getCookie(c, 'auth_token');
 
@@ -90,3 +90,6 @@ router.delete('/logout', async (c) =>
 
 	return c.json({ code: 0 });
 });
+
+
+export default router;
