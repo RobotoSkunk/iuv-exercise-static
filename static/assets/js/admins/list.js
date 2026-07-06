@@ -1,29 +1,30 @@
 
-// Cargar administradores
-(async () =>
+/**
+ * 
+ * @param {{ serial: string, name: string, lastname_father: string, lastname_mother: string, role: string }} admin 
+ */
+function insertRow(admin)
 {
-	const response = await fetch('/api/admins');
-
-	/**
-	 * @type {{ code: number, data: { serial: string, name: string, lastname_father: string, lastname_mother: string, role: string }[] }}
-	 */
-	const json = await response.json();
 	const template = $('#admin-row');
 
-	for (const admin of json.data) {
-		// Nota: esto es ridículamente inseguro y solo se usó de esta manera
-		// para terminar la actividad lo más rápido posible.
-		const html = template.html()
-			.replaceAll('$SERIAL', admin.serial)
-			.replace('$NAME', admin.name)
-			.replace('$LASTNAME_FATHER', admin.lastname_father)
-			.replace('$LASTNAME_MOTHER', admin.lastname_mother)
-			.replace('$ROLE', admin.role);
+	// Nota: esto es ridículamente inseguro y solo se usó de esta manera
+	// para terminar la actividad lo más rápido posible.
+	const html = template.html()
+		.replaceAll('$SERIAL', admin.serial)
+		.replace('$NAME', admin.name)
+		.replace('$LASTNAME_FATHER', admin.lastname_father)
+		.replace('$LASTNAME_MOTHER', admin.lastname_mother)
+		.replace('$ROLE', admin.role);
 
-		const row = $('<tr>');
-		row.html(html);
+	const row = $(html);
 
-		row.children('a[data-action=delete]').on('click', (ev) =>
+	const tr = $('<tr>');
+	tr.append(row);
+
+	if (identity.serial == admin.serial || !identity.role.permissions.includes('admin.delete')) {
+		row.children('a[data-action=delete]').remove();
+	} else {
+		row.children('a[data-action=delete]').on('click', async (ev) =>
 		{
 			ev.preventDefault();
 
@@ -33,12 +34,34 @@
 			);
 
 			if (answer) {
+				await fetch(`/api/admins/${admin.serial}`, { method: 'DELETE' });
+
 				Notifications.push('success', 'Se ha eliminado el administrador.');
-				row.remove();
+				tr.remove();
 			}
 		});
+	}
 
-		$('#admins-list').append(row);
+	$('#admins-list').append(tr);
+}
+
+/**
+ * @type {{ id: number, name: string, permissions: string[] }[]}
+ */
+let roles;
+
+// Cargar administradores
+(async () =>
+{
+	const response = await fetch('/api/admins');
+
+	/**
+	 * @type {{ code: number, data: { serial: string, name: string, lastname_father: string, lastname_mother: string, role: string }[] }}
+	 */
+	const json = await response.json();
+
+	for (const admin of json.data) {
+		insertRow(admin);
 	}
 })();
 
@@ -59,4 +82,57 @@
 
 		$('#roles').append(optionElement);
 	}
+
+	roles = json.data;
 })();
+
+$('form').on('submit', async (ev) =>
+{
+	ev.preventDefault();
+
+	/**
+	 * @type {HTMLFormElement}
+	 */
+	const form = ev.currentTarget;
+
+	if (!form.checkValidity()) {
+		form.reportValidity();
+		return;
+	}
+
+	const formData = new FormData(form);
+	const data = {};
+
+	for (const [ key, value ] of formData.entries()) {
+		if (key === 'role_id') {
+			data[key] = Number.parseInt(value);
+		} else {
+			data[key] = value;
+		}
+	}
+
+	try {
+		const response = await fetch(`/api/admins`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+
+		const json = await response.json();
+
+		if (json.code !== 0) {
+			alert(json.error);
+			return;
+		}
+
+
+		data.role = roles.find(r => r.id == data.role_id).name;
+
+		form.reset();
+		insertRow(data);
+	} catch (error) {
+		console.error(error);
+	}
+});

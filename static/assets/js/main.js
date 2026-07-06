@@ -41,6 +41,11 @@ class Notifications
 	}
 }
 
+/**
+ * @type {{ serial: string; name: string; lastname_father: string; lastname_mother: string; role: { id: number; name: string; permissions: string[]; }}}
+ */
+let identity;
+
 (async() =>
 {
 	{
@@ -51,6 +56,8 @@ class Notifications
 			location.href = '/iniciar-sesion.html';
 			return;
 		}
+
+		identity = json.data;
 	}
 
 

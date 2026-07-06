@@ -65,7 +65,7 @@ const permissionsData = [
 		span.text(role.name);
 
 		if (params.get('id') != role.id) {
-			const img = clone.children('img');
+			const img = clone.children('.arrow');
 			img.remove();
 		} else {
 			currentRole = role;
@@ -87,44 +87,97 @@ const permissionsData = [
 	if (currentRole) {
 		$('#role-name').val(currentRole.name);
 
-		if (currentRole.id === 1) {
+		if (currentRole.id == identity.role.id) {
 			$('#section-noallowed').css('display', 'block');
 		} else {
 			$('#section-edit').css('display', 'flex');
 		}
 
-		$('#role-delete').on('click', (ev) =>
+		$('#role-delete').on('click', async (ev) =>
 		{
 			ev.preventDefault();
 
 			const answer = confirm(
-				'¿Estás seguro de eliminar este rol? Esto eliminará a todos los administradores ' +
-				'adjuntos a este.'
+				'¿Estás seguro de eliminar este rol? Esto eliminará a todos los administradores adjuntos a este.'
 			);
 
 			if (!answer) {
 				return;
 			}
 
+			await fetch(`/api/roles/${currentRole.id}`, { method: 'DELETE' });
+
 			Notifications.push('success', 'Se ha eliminado el rol solicitado.');
-			(`#role-${currentRole.id}`).remove();
+			$(`#role-${currentRole.id}`).remove();
 			$('#role-data').remove();
 
 			$('#alert').css('display', 'flex');
-
-			setTimeout(() =>
-			{
-				Notifications.push('alert', 'La página se reiniciará en 5 segundos, ya que ésta es una simulación.');
-
-				setTimeout(() =>
-				{
-					location.reload();
-				}, 5500);
-			}, 1000);
 		});
 	} else if (roleId === 'nuevo') {
 		$('#section-create').css('display', 'block');
 	}
+
+	$('form').on('submit', async (ev) =>
+	{
+		ev.preventDefault();
+		const form = ev.currentTarget;
+
+		if (!form.checkValidity()) {
+			form.reportValidity();
+			return;
+		}
+
+		const formData = new FormData(form);
+		const data = {
+			name: formData.get('name'),
+			permissions: [],
+		};
+		formData.delete('name');
+
+		for (const [ key, _ ] of formData.entries()) {
+			data.permissions.push(key);
+		}
+
+		try {
+			if (roleId != 'nuevo') {
+				const response = await fetch(`/api/roles/${roleId}`, {
+					method: 'PATCH',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				});
+
+				const json = await response.json();
+
+				if (json.error) {
+					alert(json.error);
+				} else {
+					Notifications.push('success', 'Se ha actualizado el rol.');
+					$(`#role-${roleId} span`).text(data.name);
+				}
+			} else {
+				const response = await fetch('/api/roles', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				});
+
+				const json = await response.json();
+
+				if (json.error) {
+					alert(json.error);
+				} else {
+					location.href = '/rol.html';
+				}
+			}
+		} catch (error) {
+			console.error(error);
+			alert('Algo ha salido mal, intenta de nuevo más tarde');
+		}
+	});
 
 	for (const permission of permissionsData) {
 		const clone = checkboxTemplate.contents().clone(true);

@@ -1,8 +1,7 @@
+const serial = new URLSearchParams(location.search).get('serial');
 
 (async () =>
 {
-	const serial = new URLSearchParams(location.search).get('serial');
-
 	if (!serial) {
 		location.href = '/administrador/lista.html';
 		return;
@@ -43,3 +42,47 @@
 		}
 	}
 })();
+
+$('form').on('submit', async (ev) =>
+{
+	ev.preventDefault();
+
+	const form = ev.currentTarget;
+
+	if (!form.checkValidity()) {
+		form.reportValidity();
+		return;
+	}
+
+	const formData = new FormData(ev.currentTarget);
+	const data = { };
+
+	for (const [ key, value ] of formData.entries()) {
+		if (key === 'role_id') {
+			data[key] = Number.parseInt(value);
+		} else {
+			data[key] = value;
+		}
+	}
+
+	try {
+		const response = await fetch(`/api/admins/${serial}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+
+		const json = await response.json();
+
+		if (!json.error) {
+			Notifications.push('success', 'Datos actualizados exitosamente.');
+		} else {
+			Notifications.push('error', json.error);
+		}
+	} catch (error) {
+		alert('Algo ha salido mal, intenta de nuevo más tarde');
+		console.error(error);
+	}
+});

@@ -1,6 +1,7 @@
 
 import { Hono } from 'hono';
 import { pg } from '../database';
+import { sql } from 'bun';
 
 const router = new Hono();
 
@@ -129,26 +130,8 @@ router.delete('/:id', async (c) =>
 				});
 			}
 
-			const columns: string[] = [];
-
-			if (data.name) {
-				columns.push('name');
-			}
-			if (data.permissions) {
-				columns.push('permissions');
-			}
-
-			const values: (string|string[])[] = [];
-
-			if (data.name) {
-				values.push(data.name);
-			}
-			if (data.permissions) {
-				values.push(data.permissions);
-			}
-
 			try {
-				await pg`UPDATE roles(${columns.join(',')}) SET (${values.join(',')}) WHERE id = ${id}`;
+				await pg`UPDATE roles SET name = ${data.name!}, permissions = ${sql.array(data.permissions!, 'TEXT')} WHERE id = ${id}`;
 			} catch (e) {
 				console.error(e);
 
@@ -234,7 +217,7 @@ router.delete('/:id', async (c) =>
 			}
 
 			try {
-				await pg`INSERT INTO roles(name, permissions) VALUES (${data.name}, ${data.permissions})`;
+				await pg`INSERT INTO roles(name, permissions) VALUES (${data.name}, ${sql.array(data.permissions, 'TEXT')})`;
 			} catch (e) {
 				console.error(e);
 

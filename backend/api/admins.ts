@@ -2,6 +2,7 @@
 import { Hono } from 'hono';
 import { pg } from '../database';
 import crypto from 'crypto';
+import { sql } from 'bun';
 
 const router = new Hono();
 
@@ -108,7 +109,6 @@ router.delete('/:serial', async (c) =>
 
 		try {
 			const data = await c.req.json() as Partial<{
-				id: string;
 				name: string;
 				lastname_father: string;
 				lastname_mother: string;
@@ -145,38 +145,8 @@ router.delete('/:serial', async (c) =>
 				}
 			}
 
-			const columns: string[] = [];
-
-			if (data.name) {
-				columns.push('name');
-			}
-			if (data.lastname_father) {
-				columns.push('lastname_father');
-			}
-			if (data.lastname_mother) {
-				columns.push('lastname_mother');
-			}
-			if (data.role_id) {
-				columns.push('role_id');
-			}
-
-			const values: (string|number)[] = [];
-
-			if (data.name) {
-				values.push(data.name);
-			}
-			if (data.lastname_father) {
-				values.push(data.lastname_father);
-			}
-			if (data.lastname_mother) {
-				values.push(data.lastname_mother);
-			}
-			if (data.role_id) {
-				values.push(data.role_id);
-			}
-
 			try {
-				await pg`UPDATE users(${columns.join(',')}) SET (${values.join(',')}) WHERE id = ${serial}`;
+				await pg`UPDATE users SET ${sql(data)} WHERE id = ${serial}`;
 			} catch (e) {
 				console.error(e);
 
@@ -278,7 +248,7 @@ router.delete('/:serial', async (c) =>
 						${data.name},
 						${data.lastname_father},
 						${data.lastname_mother},
-						${hash}
+						${hash},
 						${data.role_id}
 					)`;
 			} catch (e) {

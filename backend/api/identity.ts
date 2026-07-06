@@ -23,7 +23,7 @@ router.get('/', async (c) =>
 		lastname_mother: string;
 		role_id: number;
 		role_name: string;
-		role_permission: string[];
+		role_permissions: string[];
 	}[]>`SELECT
 			users.id,
 			users.name,
@@ -49,7 +49,7 @@ router.get('/', async (c) =>
 			role: {
 				id: user.role_id,
 				name: user.role_name,
-				permission: user.role_permission,
+				permissions: user.role_permissions,
 			},
 		},
 	});
