@@ -37,17 +37,17 @@ Para una demostración funcional, la página se encuentra hosteada en
 > ![Lista de administradores](_screenshots/Screenshot_20260604_234034.png)
 
 > **Lista de docentes**
-> ![](_screenshots/Screenshot_20260604_234038.png)
+> ![Lista de docentes](_screenshots/Screenshot_20260604_234038.png)
 
 > **Lista y panel de roles**
-> ![](_screenshots/Screenshot_20260604_234047.png)
+> ![Lista y panel de roles](_screenshots/Screenshot_20260604_234047.png)
 
 > **Panel del rol actual del usuario administrador**
-> ![](_screenshots/Screenshot_20260604_234053.png)
+> ![Panel del rol actual del usuario administrador](_screenshots/Screenshot_20260604_234053.png)
 
 > **Panel de información del docente**
-> ![](_screenshots/Screenshot_20260604_234100.png)
+> ![Panel de información del docente](_screenshots/Screenshot_20260604_234100.png)
 
 > **Panel de información del administrador**
-> ![](_screenshots/Screenshot_20260604_234104.png)
+> ![Panel de información del administrador](_screenshots/Screenshot_20260604_234104.png)
 
