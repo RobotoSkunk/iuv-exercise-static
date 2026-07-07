@@ -9,7 +9,7 @@ const ENV = {
 	USER: process.env.DB_USER ?? '',
 };
 
-export const pg = new SQL(`postgres://${ENV.USER}:${encodeURIComponent(ENV.PASSWORD)}@${ENV.HOST}:${ENV.PORT}/${ENV.NAME}`);
+export const pg = new SQL(`postgres://${ENV.USER}:${ENV.PASSWORD}@${ENV.HOST}:${ENV.PORT}/${ENV.NAME}`);
 
 export async function initDatabase()
 {
