@@ -4,7 +4,7 @@ module.exports = {
 		{
 			name: 'iuv-project-site',
 			script: 'index.ts',
-			interpreter: 'bun',
+			interpreter: '~/.bun/bin/bun',
 			cwd: './',
 			max_restarts: 10,
 		}
