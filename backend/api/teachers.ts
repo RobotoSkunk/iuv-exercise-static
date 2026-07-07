@@ -233,5 +233,82 @@ router.delete('/:serial', async (c) =>
 	})
 }
 
+router.get('/:serial/attendances', async (c) =>
+{
+	const serial = c.req.param().serial;
+
+	const attendances = await pg<{
+		id: string;
+		is_entry: number;
+		created_at: Date;
+	}[]>`SELECT
+			id,
+			is_entry,
+			created_at
+		FROM
+			attendances
+		WHERE
+			teacher_id = ${serial}
+		ORDER BY
+			created_at ASC`;
+
+	return c.json({
+		code: 0,
+		data: attendances.map(v => ({
+			id: v.id,
+			is_entry: v.is_entry,
+			created_at: v.created_at.getTime(),
+		})),
+	});
+});
+
+router.post('/:serial/attendances', async (c) =>
+{
+	const serial = c.req.param().serial;
+
+	try {
+		const attendance = (await pg<{
+			id: string;
+			is_entry: boolean;
+			created_at: Date;
+		}[]>`SELECT
+				id,
+				is_entry,
+				created_at
+			FROM
+				attendances
+			WHERE
+				teacher_id = ${serial}
+			ORDER BY
+				created_at DESC
+			LIMIT 1`)[0];
+
+		let isEntry = true;
+
+		if (attendance) {
+			isEntry = !attendance.is_entry;
+		}
+
+		const time = new Date();
+
+		await pg`INSERT INTO attendances(teacher_id, is_entry, created_at) VALUES (${serial}, ${isEntry}, ${time})`;
+
+		return c.json({
+			code: 0,
+			data: {
+				is_entry: isEntry,
+				created_at: time.getTime(),
+			},
+		});
+	} catch (e) {
+		console.error(e);
+
+		return c.json({
+			code: 0,
+			message: 'Algo salió mal, intente de nuevo más tarde',
+		});
+	}
+});
+
 
 export default router;

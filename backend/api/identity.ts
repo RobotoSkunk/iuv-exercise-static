@@ -38,6 +38,11 @@ router.get('/', async (c) =>
 			users.role_id = roles.id AND auth_tokens.user_id = users.id AND auth_tokens.id = ${id}
 	`)[0]!;
 
+	if (!user) {
+		return c.json({
+			code: 1,
+		});
+	}
 
 	return c.json({
 		code: 0,

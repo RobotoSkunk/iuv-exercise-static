@@ -42,7 +42,7 @@ const serial = new URLSearchParams(location.search).get('serial');
 	}
 
 	{
-		const response = await fetch('/data/attendances.json');
+		const response = await fetch(`/api/teachers/${serial}/attendances`);
 
 		/**
 		 * @type {{ code: number, data: { id: string, is_entry: boolean, created_at: number }[] }}
@@ -54,12 +54,19 @@ const serial = new URLSearchParams(location.search).get('serial');
 		}
 	}
 
-	let lastCheckWasEntry = false;
-
-	$('#simulate').on('click', () =>
+	$('#simulate').on('click', async () =>
 	{
-		lastCheckWasEntry = !lastCheckWasEntry;
-		addEntryToTable(new Date(), lastCheckWasEntry);
+		const response = await fetch(`/api/teachers/${serial}/attendances`, {
+			method: 'POST',
+		});
+
+		const json = await response.json();
+
+		if (json.code == 0) {
+			addEntryToTable(new Date(json.data.created_at), json.data.is_entry);
+		} else {
+			Notifications.push('error', json.message);
+		}
 	});
 })();
 
