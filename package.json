@@ -9,6 +9,7 @@
   },
   "private": true,
   "scripts": {
+    "start": "bun run index.ts",
     "dev": "bun run --watch index.ts",
     "hot": "bun run --hot index.ts"
   },

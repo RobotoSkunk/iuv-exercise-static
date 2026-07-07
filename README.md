@@ -2,32 +2,31 @@
 
 Esta es la versión estática del proyecto original
 (https://github.com/RobotoSkunk/iuv-exercise), la cual se conforma únicamente de
-archivos HTML, CSS y JavaScript sin frameworks ni APIs funcionales.
+archivos HTML, CSS y JavaScript sin frameworks ni APIs funcionales, además de
+un backend basado en Bun, TypeScript y PostgreSQL.
 
 Para el funcionamiento de las solicitudes por fetch y la demostración de los
 conocimientos sobre JavaScript, los datos consultados son información estática
 generada de las solicitudesf fetch del proyecto original con ligeras
 modificaciones.
 
-## Inicio de sesión
+## Ejecución
 
-Para la demostración de la página de inicio de sesión, se implementó un inicio
-de sesión ficticio donde el acceso es garantizado sin importar los datos
-ingresados.
+Primero se debe clonar el archivo `.env.example` a `.env` y configurar sus
+valores con los correspondientes, al igual que crear una base de datos y
+escribir su nombre en el archivo `.env`.
 
-Dicho inicio de sesión es activa únicamente durante la sesión de la pestaña
-activa debido al uso de `sessionStorage` para su funcionamiento.
+Posteriormente, solo se debe ejecutar el siguiente comando en el directorio raíz
+del proyecto:
 
-## Etiquetas HTML sin cerrar
-
-Las etiquetas HTML no se cerraron en el código porque el cierre de dichas
-etiquetas es completamente opcional, y se mantuvo así por mera estética del
-código.
+```shell
+bun run start
+```
 
 ## Demostración funcional
 
-Para una demostración funcional, la página se encuentra hosteada con GitHub
-Pages en [iuv.robotoskunk.com](https://iuv.robotoskunk.com/).
+Para una demostración funcional, la página se encuentra hosteada en
+[iuv.robotoskunk.com](https://iuv.robotoskunk.com/).
 
 ## Capturas de pantalla
 
